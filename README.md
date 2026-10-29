@@ -89,4 +89,5 @@ AcadTrack is a prototype for demonstration and learning purposes.
 
 ## Author
 OKUNYOMIH OGHENETEGA
+
 Developed as a student web development project.

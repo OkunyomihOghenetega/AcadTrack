@@ -1,0 +1,342 @@
+{
+  "requests": [
+    {
+      "fullName": "John Doe",
+      "studentId": "student-001",
+      "matricNumber": "LCU/UG/23/12345",
+      "faculty": "Faculty of Natural and Applied Sciences",
+      "department": " Computer Science",
+      "requestType": "Official Transcript",
+      "purpose": "Further studies\n",
+      "deliveryMethod": "digital",
+      "id": "ADwkhuTxu-g",
+      "status": "Completed",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Ready for Collection",
+          "at": "2026-10-15T14:28:52.700Z",
+          "note": "Status set to Ready for Collection"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-15T20:15:06.541Z",
+          "note": "Status set to Completed"
+        }
+      ],
+      "completedAt": "2026-10-15T20:15:06.541Z"
+    },
+    {
+      "fullName": "dfghj",
+      "studentId": "student-001",
+      "matricNumber": "dfgjn,.",
+      "faculty": "xdfgvbhjn",
+      "department": "drfghjk",
+      "requestType": "Official Transcript",
+      "purpose": "fghjnmk,l",
+      "deliveryMethod": "physical",
+      "id": "Bp2SzUNZJ4w",
+      "status": "Ready for Collection",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Ready for Collection",
+          "at": "2026-10-15T20:26:26.044Z",
+          "note": "Status set to Ready for Collection"
+        }
+      ],
+      "completedAt": null
+    },
+    {
+      "fullName": "fsdaSD",
+      "studentId": "student-001",
+      "matricNumber": "CCCSC",
+      "faculty": "SASSC",
+      "department": "cdccsc",
+      "requestType": "Official Transcript",
+      "purpose": "czzxccx",
+      "deliveryMethod": "physical",
+      "requestId": "TR-46075",
+      "status": "Submitted",
+      "submittedAt": "2026-10-07T20:10:46.075Z",
+      "id": "-SPmvvLuTsE"
+    },
+    {
+      "fullName": "tega",
+      "studentId": "student-002",
+      "matricNumber": "2327250",
+      "faculty": "naaps",
+      "department": "comp sci",
+      "requestType": "Official Transcript",
+      "purpose": "My sister needs it to process my travelling docs\n",
+      "deliveryMethod": "physical",
+      "requestId": "TR-22771",
+      "status": "Submitted",
+      "submittedAt": "2026-10-07T20:30:22.771Z",
+      "id": "E3RXWMAUnoo"
+    },
+    {
+      "fullName": "shamen",
+      "studentId": "student-002",
+      "matricNumber": "sdxcf bn",
+      "faculty": " v bnm,",
+      "department": "vhbjnm,",
+      "requestType": "Official Transcript",
+      "purpose": "vb jlk ;",
+      "deliveryMethod": "digital",
+      "requestId": "TR-09550",
+      "status": "Completed",
+      "submittedAt": "2026-10-08T03:33:29.550Z",
+      "id": "BwVGPasWE5Y",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "2026-10-08T03:33:29.550Z",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-15T14:51:17.238Z",
+          "note": "Status set to Completed"
+        }
+      ]
+    },
+    {
+      "fullName": "jnjx bx",
+      "studentId": "student-002",
+      "matricNumber": "bjhjasjj",
+      "faculty": "nkzx jzx jh",
+      "department": "j xZJH XIH ih",
+      "requestType": "Official Transcript",
+      "purpose": "SAJ j x XH hhh ",
+      "deliveryMethod": "physical",
+      "requestId": "TR-32100",
+      "status": "Completed",
+      "submittedAt": "2026-10-15T19:47:12.100Z",
+      "id": "fwtEQzE-o5w",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "2026-10-15T19:47:12.100Z",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Processing",
+          "at": "2026-10-15T19:48:22.990Z",
+          "note": "Status set to Processing"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-15T20:15:37.956Z",
+          "note": "Done"
+        },
+        {
+          "status": "Ready for Collection",
+          "at": "2026-10-15T20:16:27.974Z",
+          "note": "Status set to Ready for Collection"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-19T16:06:13.251Z",
+          "note": "Status set to Completed"
+        }
+      ],
+      "completedAt": "2026-10-19T16:06:13.251Z"
+    },
+    {
+      "fullName": "student 2",
+      "matricNumber": "lcu/ug/23/27666",
+      "faculty": "Faculty of natural and applied sciences",
+      "department": "Computer science",
+      "requestType": "Official Transcript",
+      "purpose": "Official transcript for processing",
+      "deliveryMethod": "physical",
+      "requestId": "TR-98313",
+      "status": "Submitted",
+      "studentId": "student-002",
+      "submittedAt": "2026-10-21T16:43:18.313Z",
+      "id": "y7otCj6ScIM"
+    },
+    {
+      "fullName": "Oghenetega Okunyomih",
+      "matricNumber": "lcu/ug/23/27666",
+      "faculty": "Faculty of natural and applied sciences",
+      "department": "Computer science",
+      "requestType": "Official Transcript",
+      "purpose": "To do something ",
+      "deliveryMethod": "digital",
+      "requestId": "TR-40580",
+      "status": "Submitted",
+      "studentId": "student-002",
+      "submittedAt": "2026-10-21T17:00:40.580Z",
+      "id": "ADuOzcNk5RU"
+    },
+    {
+      "fullName": "onome",
+      "matricNumber": "lcu/ug/23/27668",
+      "faculty": "Faculty of natural and applied sciences",
+      "department": "Mechanical Engineering ",
+      "requestType": "Official Transcript",
+      "purpose": "hsyvd",
+      "deliveryMethod": "physical",
+      "requestId": "TR-88190",
+      "status": "Submitted",
+      "studentId": "student-001",
+      "submittedAt": "2026-10-21T17:43:08.190Z",
+      "id": "QHaT5dpFh3Q"
+    },
+    {
+      "fullName": "Oghenetega Okunyomih",
+      "matricNumber": "jbj",
+      "faculty": "hhk",
+      "department": "jbk",
+      "requestType": "Official Transcript",
+      "purpose": "mnkn",
+      "deliveryMethod": "digital",
+      "requestId": "TR-60015",
+      "status": "Submitted",
+      "studentId": "student-001",
+      "submittedAt": "2026-10-21T17:54:20.015Z",
+      "id": "h0Ry039RZnk"
+    },
+    {
+      "fullName": "mercy chinwo",
+      "matricNumber": "LCU/UG/23/25134",
+      "faculty": "College of medicine",
+      "department": "computer literature",
+      "requestType": "Official Transcript",
+      "purpose": "To process admission",
+      "deliveryMethod": "physical",
+      "requestId": "TR-74904",
+      "status": "Completed",
+      "studentId": "student-1792631778216",
+      "submittedAt": "2026-10-22T02:46:14.904Z",
+      "id": "5-8bNRRuSk0",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "2026-10-22T02:46:14.904Z",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Approved",
+          "at": "2026-10-22T11:41:36.913Z",
+          "note": "Status set to Approved"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-22T13:42:17.845Z",
+          "note": "Status set to Completed"
+        }
+      ],
+      "completedAt": "2026-10-22T13:42:17.845Z"
+    },
+    {
+      "fullName": "Joshua micheal",
+      "matricNumber": "lcu/ug/23/27634",
+      "faculty": "Faculty of natural and applied sciences",
+      "department": "Computer science",
+      "requestType": "Official Transcript",
+      "purpose": "To complete registration ",
+      "deliveryMethod": "digital",
+      "requestId": "TR-34976",
+      "status": "Completed",
+      "studentId": "student-1792678265894",
+      "submittedAt": "2026-10-22T14:12:14.976Z",
+      "id": "7AX35ffN9hg",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "2026-10-22T14:12:14.976Z",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Processing",
+          "at": "2026-10-22T14:12:54.446Z",
+          "note": "Status set to Processing"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-22T14:13:05.405Z",
+          "note": "Status set to Completed"
+        }
+      ],
+      "completedAt": "2026-10-22T14:13:05.405Z"
+    },
+    {
+      "fullName": "Richard Davies Oluwatunmise",
+      "matricNumber": "LCU/UG/23/27611",
+      "faculty": "Faculty of natural and applied sciences",
+      "department": "Computer & Information science ",
+      "requestType": "Official Transcript",
+      "purpose": "To apply for a scholarship ",
+      "deliveryMethod": "digital",
+      "requestId": "TR-00061",
+      "status": "Completed",
+      "studentId": "student-1792691625580",
+      "submittedAt": "2026-10-22T17:56:40.061Z",
+      "id": "P6IRyhLUum8",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "at": "2026-10-22T17:56:40.061Z",
+          "note": "Request submitted"
+        },
+        {
+          "status": "Under Review",
+          "at": "2026-10-22T17:57:24.619Z",
+          "note": "Status set to Under Review"
+        },
+        {
+          "status": "Approved",
+          "at": "2026-10-22T17:57:44.424Z",
+          "note": "Status set to Approved"
+        },
+        {
+          "status": "Completed",
+          "at": "2026-10-22T17:58:01.324Z",
+          "note": "Status set to Completed"
+        }
+      ],
+      "completedAt": "2026-10-22T17:58:01.324Z"
+    }
+  ],
+  "accounts": [
+    {
+      "fullName": "ada",
+      "matricNumber": "ehi",
+      "username": "mercy",
+      "password": "chinwo",
+      "studentId": "student-1792631778216",
+      "role": "student",
+      "id": "dr3EhxWJt18"
+    },
+    {
+      "fullName": "Joshua",
+      "matricNumber": "lcu/ug/23/27644",
+      "username": "Josh",
+      "password": "1234",
+      "studentId": "student-1792678265894",
+      "role": "student",
+      "id": "zE7FeWoN3UQ"
+    },
+    {
+      "fullName": "Richard Davies",
+      "matricNumber": "LCU/UG/23/27611",
+      "username": "richyDaquaman",
+      "password": "tega",
+      "studentId": "student-1792691625580",
+      "role": "student",
+      "id": "P8GmDA4Ulew"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

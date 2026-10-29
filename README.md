@@ -88,5 +88,5 @@ AcadTrack is a prototype for demonstration and learning purposes.
 - Integrate an authorized academic records system where appropriate.
 
 ## Author
-
+OKUNYOMIH OGHENETEGA
 Developed as a student web development project.

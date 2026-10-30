@@ -1,11 +1,9 @@
+
 import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import html2pdf from 'html2pdf.js'
-
-
-const API_URL = 'http://localhost:3001/requests'
-
+import API_URL from '../api'
 
 function getStatuses(deliveryMethod) {
   const commonStatuses = [
@@ -27,10 +25,8 @@ function getStatuses(deliveryMethod) {
   ]
 }
 
-
 function RequestDetails() {
   const { id } = useParams()
-
 
   const [request, setRequest] = useState(null)
   const [selectedStatus, setSelectedStatus] = useState('')
@@ -45,7 +41,7 @@ function RequestDetails() {
   useEffect(() => {
     async function fetchRequest() {
       try {
-        const response = await axios.get(`${API_URL}/${id}`)
+        const response = await axios.get(`${API_URL}/requests/${id}`)
         setRequest(response.data)
         setSelectedStatus(response.data.status || 'Submitted')
       } catch (err) {
@@ -61,6 +57,7 @@ function RequestDetails() {
 
   async function updateStatus(event) {
     event.preventDefault()
+
     if (!request) return
 
     setSaving(true)
@@ -90,19 +87,19 @@ function RequestDetails() {
     }
 
     const updatedRequest = {
-     status: selectedStatus,
-     timeline: [...oldTimeline, newEntry],
-     completedAt:
+      status: selectedStatus,
+      timeline: [...oldTimeline, newEntry],
+      completedAt:
         selectedStatus === 'Completed'
-        ? request.status === 'Completed'
-        ? request.completedAt || new Date().toISOString()
-          : new Date().toISOString()
-            : null,
+          ? request.status === 'Completed'
+            ? request.completedAt || new Date().toISOString()
+            : new Date().toISOString()
+          : null,
     }
 
     try {
       const response = await axios.patch(
-        `${API_URL}/${id}`,
+        `${API_URL}/requests/${id}`,
         updatedRequest
       )
 
@@ -116,7 +113,7 @@ function RequestDetails() {
       setSaving(false)
     }
   }
-    
+
   async function downloadTranscript() {
     if (!transcriptRef.current || !request) return
 
@@ -152,7 +149,6 @@ function RequestDetails() {
     }
   }
 
-
   if (loading) {
     return <p className="p-6 text-gray-500">Loading request details...</p>
   }
@@ -160,7 +156,10 @@ function RequestDetails() {
   if (!request) {
     return (
       <div className="space-y-4">
-        <p className="text-red-700">{error || 'Request not found.'}</p>
+        <p className="text-red-700">
+          {error || 'Request not found.'}
+        </p>
+
         <Link to="/admin" className="text-[#312E81] underline">
           Back to Admin Dashboard
         </Link>
@@ -189,6 +188,7 @@ function RequestDetails() {
         <h1 className="mt-4 text-3xl font-semibold text-[#1E1B4B]">
           Request Details
         </h1>
+
         <p className="mt-2 text-gray-600">
           Review the student's request and record progress.
         </p>
@@ -206,14 +206,17 @@ function RequestDetails() {
         </p>
       )}
 
-      <section
-        className="space-y-5 border border-gray-200 bg-white p-6"
-      >
+      {/* Student request information and timeline */}
+      <section className="space-y-5 border border-gray-200 bg-white p-6">
         <div className="border-b border-gray-200 pb-4">
-          <p className="text-sm text-gray-500">AcadTrack Transcript Portal</p>
+          <p className="text-sm text-gray-500">
+            AcadTrack Transcript Portal
+          </p>
+
           <h2 className="mt-2 text-xl font-semibold text-[#1E1B4B]">
             {request.requestType || 'Transcript Request'}
           </h2>
+
           <p className="mt-1 text-sm text-gray-500">
             Request ID: {request.requestId || `TR-${request.id}`}
           </p>
@@ -226,6 +229,7 @@ function RequestDetails() {
           <Detail label="Department" value={request.department} />
           <Detail label="Purpose" value={request.purpose} />
           <Detail label="Delivery Method" value={request.deliveryMethod} />
+
           <Detail
             label="Submitted"
             value={
@@ -234,6 +238,7 @@ function RequestDetails() {
                 : 'Date not recorded'
             }
           />
+
           <Detail
             label="Current Status"
             value={request.status || 'Submitted'}
@@ -241,19 +246,30 @@ function RequestDetails() {
         </div>
 
         <div className="border-t border-gray-200 pt-4">
-          <h3 className="font-semibold text-[#1E1B4B]">Request Timeline</h3>
+          <h3 className="font-semibold text-[#1E1B4B]">
+            Request Timeline
+          </h3>
 
           <ol className="mt-4 space-y-4">
             {timeline.map((entry, index) => (
-              <li key={`${entry.at}-${index}`} className="border-l-2 border-[#312E81] pl-4">
-                <p className="font-medium text-gray-800">{entry.status}</p>
+              <li
+                key={`${entry.at}-${index}`}
+                className="border-l-2 border-[#312E81] pl-4"
+              >
+                <p className="font-medium text-gray-800">
+                  {entry.status}
+                </p>
+
                 {entry.at && (
                   <p className="mt-1 text-xs text-gray-500">
                     {new Date(entry.at).toLocaleString()}
                   </p>
                 )}
+
                 {entry.note && (
-                  <p className="mt-1 text-sm text-gray-600">{entry.note}</p>
+                  <p className="mt-1 text-sm text-gray-600">
+                    {entry.note}
+                  </p>
                 )}
               </li>
             ))}
@@ -261,100 +277,107 @@ function RequestDetails() {
         </div>
       </section>
 
+      {/* Transcript preview and download */}
+      {request.status === 'Completed' && (
+        <section className="border border-gray-200 bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#1E1B4B]">
+            Transcript
+          </h2>
+
+          <p className="mt-2 text-sm text-gray-600">
+            Download the sample transcript for this student's request.
+          </p>
+
+          <div
+            ref={transcriptRef}
+            className="mt-5 space-y-5 p-6"
+            style={{
+              backgroundColor: '#ffffff',
+              color: '#222222',
+              fontFamily: 'Arial, sans-serif',
+            }}
+          >
+            <h2 className="text-center text-2xl font-bold">
+              LEAD CITY UNIVERSITY
+            </h2>
+
+            <p className="text-center text-lg font-semibold">
+              Academic Transcript
+            </p>
+
+            <div className="border-t border-gray-300 pt-4">
+              <p>Student Name: {request.fullName}</p>
+              <p>Matric Number: {request.matricNumber}</p>
+              <p>Department: {request.department}</p>
+            </div>
+
+            <div>
+              <h3 className="mb-3 font-semibold">
+                Course Results
+              </h3>
+
+              <table className="w-full border-collapse text-left text-sm">
+                <thead>
+                  <tr className="border-b border-gray-300">
+                    <th className="p-2">Course Code</th>
+                    <th className="p-2">Course Title</th>
+                    <th className="p-2">Units</th>
+                    <th className="p-2">Grade</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr className="border-b border-gray-200">
+                    <td className="p-2">CSC 101</td>
+                    <td className="p-2">Introduction to Computing</td>
+                    <td className="p-2">3</td>
+                    <td className="p-2">A</td>
+                  </tr>
+
+                  <tr className="border-b border-gray-200">
+                    <td className="p-2">CSC 102</td>
+                    <td className="p-2">Computer Programming</td>
+                    <td className="p-2">3</td>
+                    <td className="p-2">B</td>
+                  </tr>
+
+                  <tr className="border-b border-gray-200">
+                    <td className="p-2">MTH 101</td>
+                    <td className="p-2">Elementary Mathematics</td>
+                    <td className="p-2">3</td>
+                    <td className="p-2">B</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p className="border-t border-gray-300 pt-4 text-center text-xs text-gray-500">
+              Demo transcript — sample academic data. Not an official university transcript.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={downloadTranscript}
+            className="mt-4 bg-[#312E81] px-4 py-2 text-white hover:bg-[#252263]"
+          >
+            Download Transcript
+          </button>
+        </section>
+      )}
+
+      {/* Update request status */}
       <section className="border border-gray-200 bg-white p-6">
         <h2 className="text-lg font-semibold text-[#1E1B4B]">
           Update Request
         </h2>
-        
-        {request.status === 'Completed' && (
-          <section className="border border-gray-200 bg-white p-6">
-            <h2 className="text-lg font-semibold text-[#1E1B4B]">
-              Transcript
-            </h2>
-
-            <p className="mt-2 text-sm text-gray-600">
-              Download the transcript for this student's request.
-            </p>
-
-            <div
-              ref={transcriptRef}
-              className="mt-5 space-y-5 p-6"
-              style={{
-                backgroundColor: '#ffffff',
-                color: '#222222',
-                fontFamily: 'Arial, sans-serif',
-              }}
-            >
-              <h2 className="text-center text-2xl font-bold">
-                LEAD CITY UNIVERSITY
-              </h2>
-
-              <p className="text-center text-lg font-semibold">
-                Academic Transcript
-              </p>
-
-              <div className="border-t border-gray-300 pt-4">
-                <p>Student Name: {request.fullName}</p>
-                <p>Matric Number: {request.matricNumber}</p>
-                <p>Department: {request.department}</p>
-              </div>
-
-              <div>
-                <h3 className="mb-3 font-semibold">Course Results</h3>
-
-                <table className="w-full border-collapse text-left text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-300">
-                      <th className="p-2">Course Code</th>
-                      <th className="p-2">Course Title</th>
-                      <th className="p-2">Units</th>
-                      <th className="p-2">Grade</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-gray-200">
-                      <td className="p-2">CSC 101</td>
-                      <td className="p-2">Introduction to Computing</td>
-                      <td className="p-2">3</td>
-                      <td className="p-2">A</td>
-                    </tr>
-                    <tr className="border-b border-gray-200">
-                      <td className="p-2">CSC 102</td>
-                      <td className="p-2">Computer Programming</td>
-                      <td className="p-2">3</td>
-                      <td className="p-2">B</td>
-                    </tr>
-                    <tr className="border-b border-gray-200">
-                      <td className="p-2">MTH 101</td>
-                      <td className="p-2">Elementary Mathematics</td>
-                      <td className="p-2">3</td>
-                      <td className="p-2">B</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <p className="border-t border-gray-300 pt-4 text-center text-xs text-gray-500">
-                Demo transcript — sample academic data.
-              </p>
-            </div>
-
-            <button
-              type="button"
-              onClick={downloadTranscript}
-              className="mt-4 bg-[#312E81] px-4 py-2 text-white hover:bg-[#252263]"
-            >
-              Download Transcript
-            </button>
-  </section>
-)}
-
 
         <form onSubmit={updateStatus} className="mt-4 space-y-4">
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               New status
             </label>
+
             <select
               value={selectedStatus}
               onChange={(event) => setSelectedStatus(event.target.value)}
@@ -362,9 +385,9 @@ function RequestDetails() {
             >
               {getStatuses(request.deliveryMethod).map((status) => (
                 <option key={status} value={status}>
-                    {status}
+                  {status}
                 </option>
-            ))}
+              ))}
             </select>
           </div>
 
@@ -372,6 +395,7 @@ function RequestDetails() {
             <label className="mb-2 block text-sm font-medium text-gray-700">
               Update note (optional)
             </label>
+
             <textarea
               value={note}
               onChange={(event) => setNote(event.target.value)}
@@ -398,6 +422,7 @@ function Detail({ label, value }) {
   return (
     <div>
       <p className="text-sm text-gray-500">{label}</p>
+
       <p className="mt-1 break-words font-medium text-gray-800">
         {value || 'Not provided'}
       </p>

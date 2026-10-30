@@ -2,6 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useAuth } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
+import API_URL from "../api"
 
 function NewRequest() {
   const {user} = useAuth()
@@ -60,42 +61,39 @@ function NewRequest() {
     return Object.keys(newErrors).length === 0
   }
 
- async function handleSubmit(event) {
-  event.preventDefault()
+  async function handleSubmit(event) {
+    event.preventDefault()
 
-  const isValid = validateForm()
+    const isValid = validateForm()
 
-  if (!isValid) {
-    return
-  }
+    if (!isValid) {
+      return
+    }
 
-  const requestId = `TR-${Date.now().toString().slice(-5)}`
+    const requestId = `TR-${Date.now().toString().slice(-5)}`
 
-  const requestData = {
-    ...formData,
-    requestId,
-    status: 'Submitted',
-    studentId: user.studentId,
-    submittedAt: new Date().toISOString()
-  }
+    const requestData = {
+      ...formData,
+      requestId,
+      status: 'Submitted',
+      studentId: user.studentId,
+      submittedAt: new Date().toISOString()
+    }
 
-  try {
-    const response = await axios.post(
-      'http://localhost:3001/requests',
-      requestData
-    )
+    try {
+      const response = await axios.post(`${API_URL}/requests`, requestData)
 
-    navigate(`/my-requests/${response.data.id}`, {
-      state: {
-        successMessage: 'Your transcript request was submitted successfully.'
-      }
-    })
+      navigate(`/my-requests/${response.data.id}`, {
+        state: {
+          successMessage: 'Your transcript request was submitted successfully.'
+        }
+      })
     } catch (error) {
       console.error('Failed to submit request:', error)
-      setErrors({
-        ...errors,
+      setErrors((previousErrors) => ({
+        ...previousErrors,
         submit: 'Unable to submit your request. Please try again.'
-      })
+      }))
     }
   }
   return (
@@ -375,6 +373,7 @@ function NewRequest() {
 
         <button
           type="button"
+          onClick={() => navigate('/dashboard')}
           className="border border-gray-300 px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
           Cancel

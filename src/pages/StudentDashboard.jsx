@@ -3,26 +3,39 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
+import API_URL from '../api'
 
 function StudentDashboard() {
   const [requests, setRequests] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const {user} = useAuth()
- const studentName = user?.fullName?.split(' ')[0] || user?.username || 'Student'
+
+  const { user } = useAuth()
+
+  const studentName =
+    user?.fullName?.split(' ')[0] || user?.username || 'Student'
 
   useEffect(() => {
     async function fetchRequests() {
-      try {
-        const response = await axios.get(
-          'http://localhost:3001/requests'
-        )
+      if (!user?.studentId) {
+        setRequests([])
+        setLoading(false)
+        return
+      }
 
-        setRequests(
-          response.data.filter(
-            (request) => request.studentId === user.studentId
-          )
-        )
+      try {
+        setLoading(true)
+        setError('')
+
+        const response = await axios.get(`${API_URL}/requests`)
+
+        const studentRequests = response.data
+          .filter((request) => request.studentId === user.studentId)
+          .sort((a, b) => {
+            return new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0)
+          })
+
+        setRequests(studentRequests)
       } catch (error) {
         console.error('Failed to fetch requests:', error)
         setError('Unable to load your requests. Please try again.')
@@ -32,9 +45,10 @@ function StudentDashboard() {
     }
 
     fetchRequests()
-  }, [])
+  }, [user?.studentId])
 
-  const currentRequest = requests[requests.length - 1]
+  const currentRequest = requests[0]
+  const previousRequests = requests.slice(1)
 
   const progressSteps = [
     'Submitted',
@@ -50,6 +64,7 @@ function StudentDashboard() {
   const isCompleted = status === 'Completed'
 
   const progressIndex = progressSteps.indexOf(status)
+
   const progress = isCompleted
     ? 100
     : progressIndex >= 0
@@ -127,11 +142,11 @@ function StudentDashboard() {
             ) : (
               <>
                 <div className="flex flex-wrap justify-between gap-2 text-xs font-medium text-gray-500 sm:text-sm">
-                  {progressSteps.map((step) => (
+                  {progressSteps.map((step, index) => (
                     <span
                       key={step}
                       className={
-                        progressSteps.indexOf(step) <= progressIndex
+                        index <= progressIndex
                           ? 'text-[#312E81]'
                           : 'text-gray-400'
                       }
@@ -193,37 +208,38 @@ function StudentDashboard() {
         </h2>
 
         <div className="divide-y divide-gray-200 border-y border-gray-200 bg-white">
-          {requests.length <= 1 ? (
+          {loading ? (
+            <p className="px-5 py-8 text-center text-sm text-gray-500">
+              Loading previous requests...
+            </p>
+          ) : previousRequests.length === 0 ? (
             <p className="px-5 py-8 text-center text-sm text-gray-500">
               No previous requests yet.
             </p>
           ) : (
-            requests
-              .slice(0, -1)
-              .reverse()
-              .map((request) => (
-                <div
-                  key={request.id}
-                  className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
-                >
-                  <div>
-                    <p className="font-medium text-[#1E1B4B]">
-                      {request.requestType || 'Transcript Request'}
-                    </p>
+            previousRequests.map((request) => (
+              <div
+                key={request.id}
+                className="flex flex-col gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="font-medium text-[#1E1B4B]">
+                    {request.requestType || 'Transcript Request'}
+                  </p>
 
-                    <p className="mt-1 text-sm text-gray-500">
-                      {request.requestId || `TR-${request.id}`}
-                    </p>
-                  </div>
-
-                  <Link
-                    to={`/my-requests/${request.id}`}
-                    className="text-sm font-medium text-[#312E81] underline"
-                  >
-                    View request
-                  </Link>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {request.requestId || `TR-${request.id}`}
+                  </p>
                 </div>
-              ))
+
+                <Link
+                  to={`/my-requests/${request.id}`}
+                  className="text-sm font-medium text-[#312E81] underline"
+                >
+                  View request
+                </Link>
+              </div>
+            ))
           )}
         </div>
       </section>

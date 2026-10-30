@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import API_URL from '../api';
 
-const API_URL = 'http://localhost:3001/requests'
 
 function AdminDashboard() {
   const [requests, setRequests] = useState([])
@@ -15,7 +15,7 @@ function AdminDashboard() {
   async function fetchRequests() {
     try {
       setError('')
-      const response = await axios.get(API_URL)
+      const response = await axios.get(`${API_URL}/requests`)
       setRequests(response.data)
     } catch (err) {
       setError('Could not load requests. Check that JSON Server is running.')

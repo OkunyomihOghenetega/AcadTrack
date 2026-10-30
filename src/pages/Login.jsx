@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import API_URL from '../api';
 
 function Login() {
     const [username, setUsername ] = useState('')
@@ -39,7 +40,7 @@ function Login() {
 
         if (!matchedAccount) {
             try {
-                const response = await axios.get('http://localhost:3001/accounts')
+                const response = await axios.get(`${API_URL}/accounts`)
                 const registeredAccounts = response.data
 
                 matchedAccount = registeredAccounts.find(

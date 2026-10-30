@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios"
 import { useNavigate,Link } from "react-router-dom"
+import API_URL from "../api";
 
 function Register() {
     const navigate = useNavigate()
@@ -38,18 +39,13 @@ function Register() {
     }
 
     try {
-        const response = await axios.get('http://localhost:3001/accounts')
+        const response = await axios.get(`${API_URL}/accounts`)
         const accounts = response.data
-
-       const existingAccount = accounts.find(
-        (account) =>
-        account.username.toLowerCase() === formData.username.trim().toLowerCase() ||
-        (
-            account.matricNumber &&
-            account.matricNumber.toLowerCase() === formData.matricNumber.trim().toLowerCase()
+        const existingAccount = accounts.find(
+            (account) =>
+            (account.username || '').toLowerCase() === formData.username.trim().toLowerCase() ||
+            (account.matricNumber || '').toLowerCase() === formData.matricNumber.trim().toLowerCase()
         )
-)
-
         if (existingAccount) {
         setError('That username or matric number is already registered.')
         return
@@ -64,7 +60,7 @@ function Register() {
         role: 'student'
         }
 
-        await axios.post('http://localhost:3001/accounts', newAccount)
+        await axios.post(`${API_URL}/accounts`, newAccount)
 
         setSuccess('Account created successfully! You can now log in.')
         setFormData({

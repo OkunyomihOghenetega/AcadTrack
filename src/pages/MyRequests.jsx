@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useAuth  } from '../context/AuthContext'
+import API_URL from '../api';
 
 function MyRequests() {
   const [requests, setRequests] = useState([])
@@ -12,9 +13,7 @@ function MyRequests() {
   useEffect(() => {
     async function fetchRequests() {
       try {
-        const response = await axios.get(
-          'http://localhost:3001/requests'
-        )
+        const response = await axios.get(`${API_URL}/requests`)
         
         setRequests(
           response.data.filter(
@@ -29,8 +28,10 @@ function MyRequests() {
       }
     }
 
-    fetchRequests()
-  }, [])
+  if (user?.studentId) {
+      fetchRequests()
+    }
+  }, [user?.studentId])
 
   return (
     <div className="space-y-8">

@@ -36,10 +36,18 @@ function RequestView() {
     if (!transcriptRef.current || !request) return
 
     try {
+      const safeMatricNumber = String(
+        request.matricNumber || request.id || 'student'
+      ).replace(/[^a-z0-9-_]/gi, '-')
+
       await html2pdf()
         .set({
           margin: 10,
-          filename: `AcadTrack-Transcript-${request.matricNumber || request.id}.pdf`,
+          filename: `AcadTrack-Transcript-${safeMatricNumber}.pdf`,
+          image: {
+            type: 'jpeg',
+            quality: 0.98,
+          },
           jsPDF: {
             format: 'a4',
             orientation: 'portrait',
@@ -47,15 +55,78 @@ function RequestView() {
           html2canvas: {
             scale: 2,
             backgroundColor: '#ffffff',
+            useCORS: true,
             onclone: (clonedDocument) => {
-              const styles = clonedDocument.querySelectorAll('style')
+              // Remove the original website stylesheets from the PDF copy.
+              // This prevents html2canvas from reading unsupported oklch colors.
+              clonedDocument
+                .querySelectorAll('style, link[rel="stylesheet"]')
+                .forEach((element) => element.remove())
 
-              styles.forEach((style) => {
-                style.textContent = style.textContent.replace(
-                  /oklch\([^)]*\)/g,
-                  '#000000'
-                )
-              })
+              // Add simple styling specifically for the PDF.
+              const pdfStyles = clonedDocument.createElement('style')
+
+              pdfStyles.textContent = `
+                #transcript-to-download {
+                  display: block;
+                  width: 100%;
+                  padding: 24px;
+                  box-sizing: border-box;
+                  background: #ffffff;
+                  color: #222222;
+                  font-family: Arial, sans-serif;
+                }
+
+                #transcript-to-download h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  font-weight: bold;
+                  margin: 0 0 16px;
+                }
+
+                #transcript-to-download p {
+                  color: #222222;
+                  margin: 8px 0;
+                  line-height: 1.5;
+                }
+
+                #transcript-to-download > div {
+                  margin-top: 18px;
+                  padding-top: 14px;
+                  border-top: 1px solid #cccccc;
+                }
+
+                #transcript-to-download h3 {
+                  font-size: 16px;
+                  font-weight: bold;
+                  margin-bottom: 12px;
+                }
+
+                #transcript-to-download table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  text-align: left;
+                  font-size: 12px;
+                }
+
+                #transcript-to-download th,
+                #transcript-to-download td {
+                  padding: 9px;
+                  border-bottom: 1px solid #dddddd;
+                  color: #222222;
+                }
+
+                #transcript-to-download > p:last-child {
+                  border-top: 1px solid #cccccc;
+                  padding-top: 14px;
+                  margin-top: 18px;
+                  text-align: center;
+                  font-size: 10px;
+                  color: #666666;
+                }
+              `
+
+              clonedDocument.head.appendChild(pdfStyles)
             },
           },
         })
@@ -190,6 +261,7 @@ function RequestView() {
       {status === 'Completed' && request.deliveryMethod === 'digital' && (
         <div className="space-y-4">
           <section
+            id="transcript-to-download"
             ref={transcriptRef}
             className="space-y-5 bg-white p-8"
             style={{
